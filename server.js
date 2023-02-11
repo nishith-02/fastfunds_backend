@@ -12,6 +12,9 @@ app.use(express.json({ limit: "100000000" }));
 const ConnectDB = require("./config/db");
 ConnectDB();
 
+const userRoutes = require("./routers/user");
+app.use(userRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
