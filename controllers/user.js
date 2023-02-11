@@ -2,7 +2,7 @@ const User = require("../models/user.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
-
+const multer = require("multer");
 dotenv.config();
 
 const signUp = async (req, res, next) => {
@@ -48,7 +48,29 @@ const updateProfile = async (req, res, next) => {
   }
 };
 
+const uploadDocument = async (req, res, next) => {
+  try {
+    console.log(req.file.filename);
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        document: req.file.filename,
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error: error });
+  }
+};
+
 module.exports = {
   signUp,
   updateProfile,
+  uploadDocument,
 };
