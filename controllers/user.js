@@ -2,8 +2,38 @@ const User = require("../models/user.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
-const multer = require("multer");
 dotenv.config();
+
+const signin = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Invalid Credentials" });
+    }
+    const password = req.body.password;
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Invalid Credentials" });
+    }
+    const token = jwt.sign(
+      { email: user.email, id: user.id },
+      process.env.secret
+    );
+    res.status(200).json({
+      success: true,
+      userInfo: user,
+      token: token,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error: error });
+  }
+};
 
 const signUp = async (req, res, next) => {
   try {
@@ -69,29 +99,36 @@ const uploadDocument = async (req, res, next) => {
   }
 };
 
-const getLenders=async(req,res,next)=>{
-  try{
-    const amount=parseFloat(req.params.amt)
-    const interestrate=parseFloat(req.params.interest)
-    console.log(amount,interestrate)
-    const users=await User.find()
-    console.log(users)
-    const lenders=await User.find({"$and":[{"amount":{"$gte":amount}},{"intrestrate":{"$lte":interestrate}}]})
-    console.log(lenders)
+const getLenders = async (req, res, next) => {
+  try {
+    const amount = parseFloat(req.params.amt);
+    const interestrate = parseFloat(req.params.interest);
+    console.log(amount, interestrate);
+    const users = await User.find();
+    console.log(users);
+    const lenders = await User.find({
+      $and: [
+        { amount: { $gte: amount } },
+        { intrestrate: { $lte: interestrate } },
+      ],
+    });
+    console.log(lenders);
     res.status(200).json({
-      success:true,lenders
-    })
+      success: true,
+      lenders,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error: error });
   }
-  catch(error){
-    console.log(error)
-    res.status(500)
-    .json({success:false,message:"Something went wrong",error:error})
-  }
-}
+};
 
 module.exports = {
+  signin,
   signUp,
   updateProfile,
   uploadDocument,
-  getLenders
+  getLenders,
 };

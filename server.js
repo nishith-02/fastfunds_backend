@@ -13,11 +13,13 @@ const ConnectDB = require("./config/db");
 ConnectDB();
 
 const userRoutes = require("./routers/user");
-const loanRoutes=require("./routers/loan")
-const paymentRoutes=require("./routers/payment")
+const loanRoutes = require("./routers/loan");
+const paymentRoutes = require("./routers/payment");
+const donationroutes = require("./routers/donation");
 app.use(userRoutes);
-app.use(loanRoutes)
-app.use(paymentRoutes)
+app.use(loanRoutes);
+app.use(paymentRoutes);
+app.use(donationroutes);
 
 const PORT = process.env.PORT || 5000;
 

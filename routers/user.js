@@ -2,10 +2,11 @@ const express = require("express");
 const multer = require("multer");
 const router = express.Router();
 const {
+  signin,
   signUp,
   updateProfile,
   uploadDocument,
-  getLenders
+  getLenders,
 } = require("../controllers/user");
 const auth = require("../auth/authentication");
 
@@ -21,8 +22,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+router.post("/user/signin", signin);
 router.post("/user/signup", signUp);
 router.patch("/updateprofile", auth, updateProfile);
 router.post("/uploaddocument", auth, upload.single("document"), uploadDocument);
-router.get("/getlenders/:amt/:interest",auth,getLenders)
+router.get("/getlenders/:amt/:interest", auth, getLenders);
 module.exports = router;
