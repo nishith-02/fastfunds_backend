@@ -69,8 +69,29 @@ const uploadDocument = async (req, res, next) => {
   }
 };
 
+const getLenders=async(req,res,next)=>{
+  try{
+    const amount=parseFloat(req.params.amt)
+    const interestrate=parseFloat(req.params.interest)
+    console.log(amount,interestrate)
+    const users=await User.find()
+    console.log(users)
+    const lenders=await User.find({"$and":[{"amount":{"$gte":amount}},{"intrestrate":{"$lte":interestrate}}]})
+    console.log(lenders)
+    res.status(200).json({
+      success:true,lenders
+    })
+  }
+  catch(error){
+    console.log(error)
+    res.status(500)
+    .json({success:false,message:"Something went wrong",error:error})
+  }
+}
+
 module.exports = {
   signUp,
   updateProfile,
   uploadDocument,
+  getLenders
 };

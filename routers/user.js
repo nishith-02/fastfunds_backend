@@ -5,6 +5,7 @@ const {
   signUp,
   updateProfile,
   uploadDocument,
+  getLenders
 } = require("../controllers/user");
 const auth = require("../auth/authentication");
 
@@ -23,4 +24,5 @@ const upload = multer({ storage });
 router.post("/user/signup", signUp);
 router.patch("/updateprofile", auth, updateProfile);
 router.post("/uploaddocument", auth, upload.single("document"), uploadDocument);
+router.get("/getlenders/:amt/:interest",auth,getLenders)
 module.exports = router;

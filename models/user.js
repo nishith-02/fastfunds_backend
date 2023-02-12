@@ -32,7 +32,7 @@ const userSchema = mongoose.Schema({
     type: String,
   },
   amount: {
-    type: Number,
+    type: mongoose.Types.Decimal128
   },
   intrestrate: {
     type: mongoose.Types.Decimal128,
