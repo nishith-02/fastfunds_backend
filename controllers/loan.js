@@ -3,6 +3,7 @@ const Loan = require("../models/loan.js");
 const User = require("../models/user.js");
 const scanned_doc = require("../scanned_doc/scanned_doc");
 const pdf = require("html-pdf");
+const path = require("path");
 const createLoan = async (req, res, next) => {
   try {
     const borrower_id = req.user.id;
@@ -297,8 +298,11 @@ const amountBreakDown = async (req, res, next) => {
 
 const createagreement = async (req, res, next) => {
   try {
+    const borrower = await User.findById(req.user.id);
+    const lender = await User.findById(req.body.id);
+
     pdf
-      .create(scanned_doc(), {
+      .create(scanned_doc(borrower.name, lender), {
         format: "Letter",
         orientation: "portrait",
         type: "pdf",
@@ -331,6 +335,7 @@ const createagreement = async (req, res, next) => {
 const getagreement = async (req, res, next) => {
   try {
     const filepath = path.join(__dirname, "../agreement.pdf");
+    console.log(filepath);
     res.sendFile(filepath);
   } catch (error) {
     console.log(error);

@@ -20,7 +20,7 @@ router.get("/loan/lenderHistory", auth, lenderHistory);
 router.get("/loan/borrowerHistory", auth, borrowersHistory);
 router.post("/loan/repay", auth, repay);
 router.post("/loan/amountbreakdown", auth, amountBreakDown);
-router.post("/createagreement", createagreement);
+router.post("/createagreement", auth, createagreement);
 router.get("/getagreement", getagreement);
 
 module.exports = router;
