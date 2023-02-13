@@ -2,6 +2,8 @@ const User = require("../models/user.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
+const path = require("path");
+
 dotenv.config();
 
 const signin = async (req, res, next) => {
@@ -125,10 +127,29 @@ const getLenders = async (req, res, next) => {
   }
 };
 
+const downloadDocument = async (req, res, next) => {
+  try {
+    const data = await User.findById(req.body.id);
+    if (!data.document) {
+      res
+        .status(500)
+        .json({ success: false, message: "File Not present", error: error });
+    }
+    const filepath = path.join(__dirname, "../documents/" + data.document);
+    res.sendFile(filepath);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error: error });
+  }
+};
+
 module.exports = {
   signin,
   signUp,
   updateProfile,
   uploadDocument,
   getLenders,
+  downloadDocument,
 };

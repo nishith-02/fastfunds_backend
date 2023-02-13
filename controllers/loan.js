@@ -103,6 +103,30 @@ const updateStatus = async (req, res, next) => {
   }
 };
 
+const uploadScannedcopy = async (req, res, next) => {
+  try {
+    console.log(req.body.id);
+    console.log(req.file);
+    const data = await Loan.findByIdAndUpdate(
+      req.body.id,
+      {
+        scanned_document: req.file.filename,
+      },
+      {
+        new: true,
+      }
+    );
+    console.log(data);
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      error,
+    });
+  }
+};
+
 const lenderHistory = async (req, res, next) => {
   try {
     const lender_id = req.user.id;
@@ -347,6 +371,24 @@ const getagreement = async (req, res, next) => {
   }
 };
 
+const downloadagreement = async (req, res, next) => {
+  try {
+    const data = await Loan.findById(req.body.id);
+    console.log(data);
+    const filepath = path.join(
+      __dirname,
+      "../scanned_documents/" + data.scanned_document
+    );
+    res.sendFile(filepath);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something Went Wrong!",
+      error: error.message,
+    });
+  }
+};
 module.exports = {
   createLoan,
   getPendingRequests,
@@ -357,4 +399,6 @@ module.exports = {
   amountBreakDown,
   createagreement,
   getagreement,
+  uploadScannedcopy,
+  downloadagreement,
 };

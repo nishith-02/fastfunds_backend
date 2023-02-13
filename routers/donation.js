@@ -7,6 +7,7 @@ const {
   getAllDonation,
   uploadDonationDoc,
   donationpayment,
+  downloadDonationDoc,
 } = require("../controllers/donation");
 const auth = require("../auth/authentication");
 
@@ -16,7 +17,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     console.log(file);
-    cb(null, req.user.id + ".jpg");
+    cb(null, req.user.id + ".pdf");
   },
 });
 
@@ -30,4 +31,5 @@ router.post(
   uploadDonationDoc
 );
 router.post("/donationpayment", auth, donationpayment);
+router.post("/downloadDonationDoc", auth, downloadDonationDoc);
 module.exports = router;

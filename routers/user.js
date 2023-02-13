@@ -7,6 +7,7 @@ const {
   updateProfile,
   uploadDocument,
   getLenders,
+  downloadDocument,
 } = require("../controllers/user");
 const auth = require("../auth/authentication");
 
@@ -27,4 +28,5 @@ router.post("/user/signup", signUp);
 router.patch("/updateprofile", auth, updateProfile);
 router.post("/uploaddocument", auth, upload.single("document"), uploadDocument);
 router.get("/getlenders/:amt/:interest", auth, getLenders);
+router.post("/downloaddocument", auth, downloadDocument);
 module.exports = router;

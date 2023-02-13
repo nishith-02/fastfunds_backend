@@ -1,6 +1,7 @@
 const Donation = require("../models/donations");
 const Payment = require("../models/payment");
 const Razorpay = require("razorpay");
+const path = require("path");
 const addDonation = async (req, res, next) => {
   try {
     const donation = await Donation.create({
@@ -102,9 +103,31 @@ const donationpayment = async (req, res, next) => {
   }
 };
 
+const downloadDonationDoc = async (req, res, next) => {
+  try {
+    const data = await Donation.findById(req.body.id);
+    if (!data.documentOfProof) {
+      res
+        .status(500)
+        .json({ success: false, message: "File Not present", error: error });
+    }
+    const filepath = path.join(
+      __dirname,
+      "../donation_docs/" + data.documentOfProof
+    );
+    res.sendFile(filepath);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error: error });
+  }
+};
+
 module.exports = {
   addDonation,
   getAllDonation,
   uploadDonationDoc,
   donationpayment,
+  downloadDonationDoc,
 };
