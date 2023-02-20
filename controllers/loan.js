@@ -194,6 +194,7 @@ const borrowersHistory = async (req, res, next) => {
       let interestrate = data[i].interestrate;
       let principalamount = data[i].amount;
       let total_amount = data[i].total_amount;
+      let requestId=data[i]._id
       finalData.push({
         name,
         phoneNumber,
@@ -206,6 +207,7 @@ const borrowersHistory = async (req, res, next) => {
         interestrate,
         principalamount,
         total_amount,
+        requestId
       });
     }
     res.status(200).json({

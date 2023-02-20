@@ -21,7 +21,8 @@ const razorpay = new Razorpay({
       }
   
       const payment_capture = 1;
-      const amount = check.amount * 100;
+      console.log(req.body.amount)
+      const amount = req.body.amount * 100;
       const currency = "INR";
       const options = {
         amount: amount.toString(),
