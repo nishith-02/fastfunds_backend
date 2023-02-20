@@ -43,10 +43,11 @@ const userSchema = mongoose.Schema({
   document: {
     type: String,
   },
+  bankStatements:[String],
   CreatedAt: {
     type: Date,
     default: Date.now(),
-  },
+  }
 });
 
 const user = mongoose.model("User", userSchema);

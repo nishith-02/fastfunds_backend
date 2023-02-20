@@ -8,9 +8,25 @@ const {
   uploadDocument,
   getLenders,
   downloadDocument,
+  uploadbs
 } = require("../controllers/user");
 const auth = require("../auth/authentication");
+const nanoid=require("nanoid")
 
+const multerStorage=multer.diskStorage({
+  destination:(req,file,cb)=>{
+    cb(null,"bankstatements")
+  },
+  filename:(req,file,cb)=>{
+    cb(null,nanoid(10)+".jpg")
+  }
+})
+
+const uploadFiles=multer({
+  storage:multerStorage
+})
+
+const parseFile=uploadFiles.fields([{name:"bankStatements",maxCount:3}])
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "documents");
@@ -23,10 +39,12 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+
 router.post("/user/signin", signin);
 router.post("/user/signup", signUp);
 router.patch("/updateprofile", auth, updateProfile);
 router.post("/uploaddocument", auth, upload.single("document"), uploadDocument);
 router.get("/getlenders/:amt/:interest", auth, getLenders);
 router.post("/downloaddocument", auth, downloadDocument);
+router.post("/uploadbankstatements",auth,parseFile,uploadbs)
 module.exports = router;

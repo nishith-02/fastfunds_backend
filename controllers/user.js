@@ -145,6 +145,25 @@ const downloadDocument = async (req, res, next) => {
   }
 };
 
+const uploadbs=async(req,res,next)=>{
+  try{
+    let bankStatements;
+    bankStatements=req.files.bankStatements.map(
+      (n)=>n.filename
+    )
+    const user=await User.findByIdAndUpdate(req.user.id,{
+      bankStatements
+    },{
+      new:true
+    })
+    res.status(200).json({success:true,user})
+  } 
+  catch(error){
+    console.log(error)
+    res.status(500).json({ success: false, message: "Something went wrong", error: error });
+  }
+}
+
 module.exports = {
   signin,
   signUp,
@@ -152,4 +171,5 @@ module.exports = {
   uploadDocument,
   getLenders,
   downloadDocument,
+  uploadbs
 };
