@@ -82,7 +82,7 @@ const updateProfile = async (req, res, next) => {
 
 const uploadDocument = async (req, res, next) => {
   try {
-    console.log(req.file.filename);
+    console.log(req.file);
     const user = await User.findByIdAndUpdate(
       req.user.id,
       {
@@ -127,16 +127,21 @@ const getLenders = async (req, res, next) => {
   }
 };
 
-const downloadDocument = async (req, res, next) => {
+const uploadbs = async (req, res, next) => {
   try {
-    const data = await User.findById(req.body.id);
-    if (!data.document) {
-      res
-        .status(500)
-        .json({ success: false, message: "File Not present", error: error });
-    }
-    const filepath = path.join(__dirname, "../documents/" + data.document);
-    res.sendFile(filepath);
+    let bankStatements;
+    bankStatements = req.files.bankStatements.map((n) => n.filename);
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        bankStatements,
+      },
+      {
+        new: true,
+      }
+    );
+    console.log(user);
+    res.status(200).json({ success: true, user });
   } catch (error) {
     console.log(error);
     res
@@ -145,31 +150,11 @@ const downloadDocument = async (req, res, next) => {
   }
 };
 
-const uploadbs=async(req,res,next)=>{
-  try{
-    let bankStatements;
-    bankStatements=req.files.bankStatements.map(
-      (n)=>n.filename
-    )
-    const user=await User.findByIdAndUpdate(req.user.id,{
-      bankStatements
-    },{
-      new:true
-    })
-    res.status(200).json({success:true,user})
-  } 
-  catch(error){
-    console.log(error)
-    res.status(500).json({ success: false, message: "Something went wrong", error: error });
-  }
-}
-
 module.exports = {
   signin,
   signUp,
   updateProfile,
   uploadDocument,
   getLenders,
-  downloadDocument,
-  uploadbs
+  uploadbs,
 };
