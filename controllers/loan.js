@@ -391,6 +391,25 @@ const downloadagreement = async (req, res, next) => {
     });
   }
 };
+
+const deleteRequest=async(req,res,next)=>{
+  try{
+      const id=req.body.id
+      const request=await Loan.deleteOne({_id:id})
+      res.status(200).json({
+        success:true
+      })
+  }
+  catch(error){
+    console.log(error)
+    res.status(500).json({
+      success:false,
+      message:"Something Went Wrong!",
+      error:error.message
+    })
+  }
+}
+
 module.exports = {
   createLoan,
   getPendingRequests,
@@ -403,4 +422,5 @@ module.exports = {
   getagreement,
   uploadScannedcopy,
   downloadagreement,
+  deleteRequest
 };
