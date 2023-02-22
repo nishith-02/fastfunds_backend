@@ -7,8 +7,8 @@ const {
   updateProfile,
   uploadDocument,
   getLenders,
-  downloadDocument,
   uploadbs,
+  getUserDetails,
 } = require("../controllers/user");
 const auth = require("../auth/authentication");
 const nanoid = require("nanoid");
@@ -45,4 +45,5 @@ router.patch("/updateprofile", auth, updateProfile);
 router.post("/uploaddocument", auth, upload.single("document"), uploadDocument);
 router.get("/getlenders/:amt/:interest", auth, getLenders);
 router.post("/uploadbankstatements", auth, parseFile, uploadbs);
+router.get("/getuserdetails", auth, getUserDetails);
 module.exports = router;

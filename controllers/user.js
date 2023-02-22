@@ -150,6 +150,20 @@ const uploadbs = async (req, res, next) => {
   }
 };
 
+const getUserDetails = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error: error });
+  }
+};
 module.exports = {
   signin,
   signUp,
@@ -157,4 +171,5 @@ module.exports = {
   uploadDocument,
   getLenders,
   uploadbs,
+  getUserDetails,
 };
