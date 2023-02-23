@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     let id = nanoid();
-    cb(null, req.user.id + ".pdf");
+    cb(null, id + ".pdf");
   },
 });
 
