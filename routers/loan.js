@@ -16,6 +16,7 @@ const {
   getagreement,
   uploadScannedcopy,
   downloadagreement,
+  deleteRequest
 } = require("../controllers/loan");
 
 const storage = multer.diskStorage({
@@ -37,6 +38,7 @@ router.get("/loan/lenderHistory", auth, lenderHistory);
 router.get("/loan/borrowerHistory", auth, borrowersHistory);
 router.post("/loan/repay", auth, repay);
 router.post("/loan/amountbreakdown", auth, amountBreakDown);
+router.post("/loan/deleteRequest",auth,deleteRequest)
 
 //for creating and showing agreement to user
 router.post("/createagreement", auth, createagreement);
