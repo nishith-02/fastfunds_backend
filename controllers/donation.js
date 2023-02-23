@@ -4,10 +4,12 @@ const Razorpay = require("razorpay");
 const path = require("path");
 const addDonation = async (req, res, next) => {
   try {
+    console.log(req.body);
     const donation = await Donation.create({
       ...req.body,
       createdBy: req.user.id,
     });
+    console.log(donation);
     res.status(201).json({
       success: true,
       donation,
@@ -34,6 +36,7 @@ const getAllDonation = async (req, res, next) => {
 
 const uploadDonationDoc = async (req, res, next) => {
   try {
+    // console.log(req.file.filename);
     const donation = await Donation.findOneAndUpdate(
       { createdBy: req.user.id },
       {
@@ -43,6 +46,7 @@ const uploadDonationDoc = async (req, res, next) => {
         new: true,
       }
     );
+    // console.log(donation);
     res.status(200).json({ success: true, donation });
   } catch (error) {
     console.log(error);

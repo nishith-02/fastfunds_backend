@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
+const nanoid = require("nanoid");
 
 const {
   addDonation,
@@ -16,7 +17,7 @@ const storage = multer.diskStorage({
     cb(null, "donation_docs");
   },
   filename: (req, file, cb) => {
-    console.log(file);
+    let id = nanoid();
     cb(null, req.user.id + ".pdf");
   },
 });
