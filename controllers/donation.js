@@ -4,12 +4,12 @@ const Razorpay = require("razorpay");
 const path = require("path");
 const addDonation = async (req, res, next) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const donation = await Donation.create({
       ...req.body,
       createdBy: req.user.id,
     });
-    console.log(donation);
+    // console.log(donation);
     res.status(201).json({
       success: true,
       donation,
@@ -37,8 +37,8 @@ const getAllDonation = async (req, res, next) => {
 const uploadDonationDoc = async (req, res, next) => {
   try {
     console.log(req.file.filename);
-    const donation = await Donation.findOneAndUpdate(
-      { createdBy: req.user.id },
+    const donation = await Donation.findByIdAndUpdate(
+      req.body.id,
       {
         documentOfProof: req.file.filename,
       },
@@ -64,6 +64,7 @@ const razorpay = new Razorpay({
 const donationpayment = async (req, res, next) => {
   try {
     const check = await Donation.findById(req.body.id);
+    console.log(check);
     if (!check) {
       return res.status(404).json({
         success: false,
@@ -72,7 +73,7 @@ const donationpayment = async (req, res, next) => {
     }
 
     const payment_capture = 1;
-    const amount = check.amount * 100;
+    const amount = req.body.amount * 100;
     const currency = "INR";
     const options = {
       amount: amount.toString(),
@@ -87,7 +88,7 @@ const donationpayment = async (req, res, next) => {
       userId: req.user.id,
       LoanId: req.body.id,
       razarPayObjectStringfy: JSON.stringify(razorpayResponse),
-      amount: razorpayResponse.amount,
+      amount: req.body.amount,
       receipt: razorpayResponse.receipt,
       payment_id: razorpayResponse.id,
     });

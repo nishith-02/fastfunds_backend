@@ -10,6 +10,10 @@ app.use(cors());
 app.use("/documents",express.static(path.join(__dirname, "documents")));
 app.use("/bankstatements",express.static(path.join(__dirname, "bankstatements")))
 app.use("/agreement.pdf",express.static(path.join(__dirname, "agreement.pdf")))
+app.use(
+  "/donation_docs",
+  express.static(path.join(__dirname, "donation_docs"))
+);
 app.use(express.json());
 app.use(express.json({ limit: "100000000" }));
 
