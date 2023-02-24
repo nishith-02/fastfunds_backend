@@ -36,7 +36,7 @@ const getAllDonation = async (req, res, next) => {
 
 const uploadDonationDoc = async (req, res, next) => {
   try {
-    // console.log(req.file.filename);
+    console.log(req.file.filename);
     const donation = await Donation.findOneAndUpdate(
       { createdBy: req.user.id },
       {
@@ -46,7 +46,7 @@ const uploadDonationDoc = async (req, res, next) => {
         new: true,
       }
     );
-    // console.log(donation);
+    console.log(donation);
     res.status(200).json({ success: true, donation });
   } catch (error) {
     console.log(error);

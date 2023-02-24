@@ -105,6 +105,7 @@ const getLenders = async (req, res, next) => {
   try {
     const amount = parseFloat(req.params.amt);
     const interestrate = parseFloat(req.params.interest);
+    console.log(amount,interestrate)
     console.log(amount, interestrate);
     const users = await User.find();
     console.log(users);

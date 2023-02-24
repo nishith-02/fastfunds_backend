@@ -130,6 +130,7 @@ const uploadScannedcopy = async (req, res, next) => {
 const lenderHistory = async (req, res, next) => {
   try {
     const lender_id = req.user.id;
+    console.log(lender_id)
     const data = await Loan.find({ lender_id, status: "accepted" });
     const finalData = [];
     for (let i = 0; i < data.length; i++) {
@@ -326,7 +327,10 @@ const createagreement = async (req, res, next) => {
   try {
     const borrower = await User.findById(req.user.id);
     const lender = await User.findById(req.body.id);
-
+    lender.amount=req.body.amount
+    lender.months=req.body.months
+    lender.intrestrate=req.body.intrestrate
+    console.log(borrower,lender)
     pdf
       .create(scanned_doc(borrower.name, lender), {
         format: "Letter",
@@ -362,7 +366,7 @@ const getagreement = async (req, res, next) => {
   try {
     const filepath = path.join(__dirname, "../agreement.pdf");
     console.log(filepath);
-    res.sendFile(filepath);
+    res.download(filepath);
   } catch (error) {
     console.log(error);
     res.status(500).json({
