@@ -64,6 +64,7 @@ const razorpay = new Razorpay({
 const donationpayment = async (req, res, next) => {
   try {
     const check = await Donation.findById(req.body.id);
+    console.log(check);
     if (!check) {
       return res.status(404).json({
         success: false,
@@ -72,7 +73,7 @@ const donationpayment = async (req, res, next) => {
     }
 
     const payment_capture = 1;
-    const amount = check.amount * 100;
+    const amount = req.body.amount * 100;
     const currency = "INR";
     const options = {
       amount: amount.toString(),
@@ -87,7 +88,7 @@ const donationpayment = async (req, res, next) => {
       userId: req.user.id,
       LoanId: req.body.id,
       razarPayObjectStringfy: JSON.stringify(razorpayResponse),
-      amount: razorpayResponse.amount,
+      amount: req.body.amount,
       receipt: razorpayResponse.receipt,
       payment_id: razorpayResponse.id,
     });

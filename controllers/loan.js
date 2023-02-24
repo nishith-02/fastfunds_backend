@@ -194,7 +194,7 @@ const borrowersHistory = async (req, res, next) => {
       let interestrate = data[i].interestrate;
       let principalamount = data[i].amount;
       let total_amount = data[i].total_amount;
-      let requestId=data[i]._id
+      let requestId = data[i]._id;
       finalData.push({
         name,
         phoneNumber,
@@ -207,7 +207,7 @@ const borrowersHistory = async (req, res, next) => {
         interestrate,
         principalamount,
         total_amount,
-        requestId
+        requestId,
       });
     }
     res.status(200).json({
@@ -392,23 +392,22 @@ const downloadagreement = async (req, res, next) => {
   }
 };
 
-const deleteRequest=async(req,res,next)=>{
-  try{
-      const id=req.body.id
-      const request=await Loan.deleteOne({_id:id})
-      res.status(200).json({
-        success:true
-      })
-  }
-  catch(error){
-    console.log(error)
+const deleteRequest = async (req, res, next) => {
+  try {
+    const id = req.body.id;
+    const request = await Loan.deleteOne({ _id: id });
+    res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({
-      success:false,
-      message:"Something Went Wrong!",
-      error:error.message
-    })
+      success: false,
+      message: "Something Went Wrong!",
+      error: error.message,
+    });
   }
-}
+};
 
 module.exports = {
   createLoan,
@@ -422,5 +421,5 @@ module.exports = {
   getagreement,
   uploadScannedcopy,
   downloadagreement,
-  deleteRequest
+  deleteRequest,
 };
