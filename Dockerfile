@@ -1,15 +1,25 @@
-bashCopy code
-# Use the official Node.js image as the base image
-FROM node:12
+#Sample Dockerfile for NodeJS Apps
 
-# Set the working directory in the container
+FROM node:16
+
+ENV PORT 5000
+
+ENV MONGODB_URL mongodb+srv://mozohack4:dFY8Oo4fDtGcXhJS@cluster0.4pc4jkz.mongodb.net/?retryWrites=true&w=majority.git
+
+ENV SECRET mozohack4
+
+ENV RAZAR_PAY_ID rzp_test_5WMsmI1QXStZDX
+
+ENV RAZAR_PAY_SECRET 6gXKHDtpSf1DQvWb2GZGPch3
+
 WORKDIR /server
 
-# Copy the application files into the working directory
-COPY . /server
+COPY ["package.json", "package-lock.json*", "./"]
 
-# Install the application dependencies
-RUN npm install
+RUN npm install --production
 
-# Define the entry point for the container
-CMD ["npm", "start"]
+COPY . .
+
+EXPOSE 5000
+
+CMD [ "node", "server.js" ]
