@@ -4,7 +4,7 @@ FROM node:16
 
 ENV PORT 5000
 
-ENV MONGODB_URL mongodb+srv://mozohack4:dFY8Oo4fDtGcXhJS@cluster0.4pc4jkz.mongodb.net/?retryWrites=true&w=majority.git
+ENV MONGODB_URL mongodb+srv://mozohack4:dFY8Oo4fDtGcXhJS@cluster0.4pc4jkz.mongodb.net/?retryWrites=true.git
 
 ENV SECRET mozohack4
 
