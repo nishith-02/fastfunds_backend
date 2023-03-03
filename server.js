@@ -31,6 +31,10 @@ app.use(donationroutes);
 
 const PORT = process.env.PORT || 5000;
 
+app.get("/",(req,res)=>{
+  res.json({hello:"world"})
+})
+
 app.listen(PORT, () => {
   console.log(`server on port ${PORT}`);
 });
